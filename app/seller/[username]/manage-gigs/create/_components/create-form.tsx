@@ -7,15 +7,6 @@ import { z } from "zod";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
@@ -29,9 +20,18 @@ import { api } from "@/convex/_generated/api";
 import { useQuery } from "convex/react";
 import { useState } from "react";
 import { Doc, Id } from "@/convex/_generated/dataModel";
-import { useApiMutation } from "@/hooks/use-api-mutation";
 import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
+import { useApiMutation } from "@/hooks/use-api-mutation";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 
 interface ICreateFormProps {
   username: string;
@@ -59,7 +59,7 @@ const defaultValues: Partial<TCreateFormValues> = {
   title: "",
 };
 
-const CreateForm = ({ username }: ICreateFormProps) => {
+const CreateForm: React.FC<ICreateFormProps> = ({ username }) => {
   const categories = useQuery(api.categories.get);
   const [subcategories, setSubcategories] = useState<Doc<"subcategories">[]>(
     []
@@ -172,15 +172,15 @@ const CreateForm = ({ username }: ICreateFormProps) => {
                   <SelectTrigger>
                     <SelectValue placeholder="Select a subcategory" />
                   </SelectTrigger>
-
-                  <SelectContent>
-                    {subcategories.map((subcategory, index) => (
-                      <SelectItem key={index} value={subcategory._id}>
-                        {subcategory.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
                 </FormControl>
+
+                <SelectContent>
+                  {subcategories.map((subcategory, index) => (
+                    <SelectItem key={index} value={subcategory._id}>
+                      {subcategory.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
               </Select>
 
               <FormDescription>
